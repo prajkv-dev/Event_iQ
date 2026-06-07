@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contact — EventIQ</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="brand"><a href="index.html" style="text-decoration: none;color: var(--white);">Event<span class="accent">IQ</span></a></div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="userflow.html">User Flow</a>
+    <a href="techstack.html">Tech Stack</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="passes.html">Entry Passes</a>
+    <a href="monitor.html">Crowd Monitor</a>
+    <a href="navigation.html">AR Navigation</a>
+    <a href="medic.html">Medic</a>
+    <a href="alerts.html">Alerts</a>
+    <a href="admin.html">Admin</a>
+    <a class="active" href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h1>Contact Us</h1>
+  <form id="contactForm" class="form">
+    <label>Name
+      <input type="text" name="name" required />
+    </label>
+    <label>Email
+      <input type="email" name="email" required />
+    </label>
+    <label>Message
+      <textarea name="message" rows="5" required></textarea>
+    </label>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <p id="contactStatus" class="status"></p>
+  </form>
+</main>
+
+<footer class="footer">© 2026 EventIQ</footer>
+</body>
+</html>

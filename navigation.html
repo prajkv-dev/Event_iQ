@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AR Navigation — EventIQ</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="brand"><a href="index.html" style="text-decoration: none;color: var(--white);">Event<span class="accent">IQ</span></a></div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="userflow.html">User Flow</a>
+    <a href="techstack.html">Tech Stack</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="passes.html">Entry Passes</a>
+    <a href="monitor.html">Crowd Monitor</a>
+    <a class="active" href="navigation.html">AR Navigation</a>
+    <a href="medic.html">Medic</a>
+    <a href="alerts.html">Alerts</a>
+    <a href="admin.html">Admin</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h1>AR‑Style Guidance Overlay (Prototype)</h1>
+  <div class="ar-wrap">
+    <video id="cameraFeed" autoplay playsinline></video>
+    <canvas id="arCanvas"></canvas>
+  </div>
+  <div class="cta-row">
+    <button id="startAR" class="btn btn-primary">Start Guidance</button>
+    <button id="rerouteAR" class="btn btn-outline">Reroute</button>
+  </div>
+  <p class="muted">Prototype overlay simulates arrows and safe path cues.</p>
+</main>
+
+<footer class="footer">© 2026 EventIQ</footer>
+</body>
+</html>

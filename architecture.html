@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Architecture — EventIQ</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="header">
+  <div class="brand"><a href="index.html" style="text-decoration: none;color: var(--white);">Event<span class="accent">IQ</span></a></div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="userflow.html">User Flow</a>
+    <a href="techstack.html">Tech Stack</a>
+    <a class="active" href="architecture.html">Architecture</a>
+    <a href="passes.html">Entry Passes</a>
+    <a href="monitor.html">Crowd Monitor</a>
+    <a href="navigation.html">AR Navigation</a>
+    <a href="medic.html">Medic</a>
+    <a href="alerts.html">Alerts</a>
+    <a href="admin.html">Admin</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h1>Conceptual Architecture</h1>
+  <div class="diagram">
+    <div class="node">Visitors (App)</div>
+    <div class="arrow">↔</div>
+    <div class="node">Gateway & QR Validation</div>
+    <div class="arrow">↔</div>
+    <div class="node">AI Routing Engine</div>
+    <div class="arrow">↔</div>
+    <div class="node">IoT Sensors & CCTV</div>
+    <div class="arrow">↔</div>
+    <div class="node">Admin Dashboard</div>
+  </div>
+  <p class="muted">Data flows from sensors to AI engine; routing and alerts are pushed to visitor apps and admin dashboards.</p>
+</main>
+
+<footer class="footer">© 2026 EventIQ</footer>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Entry Passes — EventIQ</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="brand"><a href="index.html" style="text-decoration: none;color: var(--white);">Event<span class="accent">IQ</span></a></div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="userflow.html">User Flow</a>
+    <a href="techstack.html">Tech Stack</a>
+    <a href="architecture.html">Architecture</a>
+    <a class="active" href="passes.html">Entry Passes</a>
+    <a href="monitor.html">Crowd Monitor</a>
+    <a href="navigation.html">AR Navigation</a>
+    <a href="medic.html">Medic</a>
+    <a href="alerts.html">Alerts</a>
+    <a href="admin.html">Admin</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h1>Generate Adaptive QR Pass</h1>
+  <form id="passForm" class="form">
+  <label>Full Name
+    <input type="text" id="fullName" name="fullName" required />
+  </label>
+
+  <label>E-mail
+    <input type="email" id="email" name="email" required />
+  </label>
+
+  <label>Event Name
+    <input type="text" id="purpose" name="purpose" required />
+  </label>
+
+  <label>Preferred Entry Time
+    <input type="time" id="entryTime" name="entryTime" required />
+  </label>
+
+  <button type="submit" class="btn btn-primary">
+    Generate Pass
+  </button>
+</form>
+
+  <div id="passResult" class="card hidden">
+    <h3>Your Pass</h3>
+    <p id="passMeta"></p>
+    <div id="qrCanvas"></div>
+    <p class="muted">This pass auto‑adjusts if congestion exceeds thresholds.</p>
+  </div>
+</main>
+
+<footer class="footer">© 2026 EventIQ</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+  emailjs.init("SxVWtX3m6SFCWRz9Q");
+</script>
+<script>
+
+document.getElementById("passForm").addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const fullName = document.getElementById("fullName").value;
+    const email = document.getElementById("email").value;
+    const purpose = document.getElementById("purpose").value;
+    const entryTime = document.getElementById("entryTime").value;
+
+    emailjs.send(
+        "service_lesmz7v",
+        "template_baoypb9",
+        {
+            name: fullName,
+            email: email,
+            purpose: purpose,
+            time: entryTime
+        }
+    )
+    .then(() => {
+
+        alert("Entry Pass Has Been Sent To Your Email");
+
+        document.getElementById("passResult").classList.remove("hidden");
+
+        document.getElementById("passMeta").innerHTML =
+            `
+            Name: ${fullName}<br>
+            Purpose: ${purpose}<br>
+            Entry Time: ${entryTime}
+            `;
+
+    })
+    .catch((error) => {
+
+        console.error(error);
+
+        alert("Failed to send email.");
+
+    });
+
+});
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</body>
+</html>

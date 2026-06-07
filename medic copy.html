@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Service — EventIQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── CSS Variables ── */
+    :root {
+      --bg:        #05080f;
+      --bg2:       #0b1120;
+      --bg3:       #101828;
+      --accent:    #ff0000;
+      --accent2:   #ff0000;
+      --accent3:   #ff6b35;
+      --text:      #e2eaf7;
+      --muted:     #6b80a0;
+      --border:    rgba(255, 0, 0, 0.15);
+      --glow:      0 0 24px rgba(255, 0, 0, 0.35);
+      --glow2:     0 0 24px rgba(255, 0, 0, 0.3);
+      --card-bg:   rgba(11,17,32,0.85);
+      --nav-h:     64px;
+      --radius:    12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+
+    /* ── Animated grid background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: rgba(5,8,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 0;
+    }
+
+    .nav-brand {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+      margin-right: 28px;
+      letter-spacing: 0.03em;
+    }
+    .nav-brand span { color: var(--text); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-wrap: wrap;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: color .2s, background .2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); background: rgba(0,212,255,0.08); }
+
+    /* hamburger */
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+    .nav-toggle span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); margin: 5px 0;
+      transition: transform .3s, opacity .3s;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 900px) {
+      .nav-toggle { display: flex; flex-direction: column; }
+      .nav-links {
+        display: none; position: absolute;
+        top: var(--nav-h); left: 0; right: 0;
+        background: rgba(5,8,15,0.97);
+        border-bottom: 1px solid var(--border);
+        padding: 12px 16px; flex-direction: column; align-items: flex-start; gap: 4px;
+      }
+      .nav-links.open { display: flex; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: .15em;
+      color: var(--accent2);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      animation: fadein .8s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      animation: fadein .8s .15s ease both;
+    }
+
+    .hero h1 .hi { color: var(--accent); }
+    .hero h1 .hg { color: var(--accent2); }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+      animation: fadein .8s .3s ease both;
+    }
+
+    .hero-btns {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+      animation: fadein .8s .45s ease both;
+    }
+
+    .btn-primary {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      padding: 13px 28px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), #cc0000af);
+      color: #000;
+      box-shadow: var(--glow);
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 36px rgba(255, 0, 0, 0.55); }
+
+    .btn-secondary {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      padding: 13px 28px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      background: transparent;
+      color: var(--text);
+      transition: border-color .2s, background .2s;
+      text-decoration: none;
+    }
+    .btn-secondary:hover { border-color: var(--accent); background: rgba(0,212,255,.07); }
+
+    /* floating drone SVG */
+    .drone-anim {
+      width: 120px; height: 80px;
+      margin: 40px auto 0;
+      position: relative;
+      animation: fadein .8s .6s ease both;
+    }
+    .drone-anim svg { animation: float 4s ease-in-out infinite; }
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(-1deg); }
+      50%      { transform: translateY(-14px) rotate(1deg); }
+    }
+
+    /* ── SECTION ── */
+    section {
+      position: relative; z-index: 1;
+      padding: 72px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .65rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+
+    /* ── CARDS ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      animation: fadein .6s ease both;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--glow);
+      border-color: rgba(255, 0, 0, 0.4);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    .card p {
+      font-size: .875rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── GREEN accent cards ── */
+    .card.green { border-color: rgba(255, 0, 0, 0.15); }
+    .card.green:hover { box-shadow: var(--glow2); border-color: rgba(255, 0, 0, 0.4); }
+    .card.green::before { background: linear-gradient(90deg, var(--accent2), transparent); }
+    .card.green h3 { color: var(--accent2); }
+
+    /* ── LIVE DASHBOARD ── */
+    .dashboard {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard::after {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(0,212,255,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .dash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .dash-stat {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .dash-stat .val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+    .dash-stat.g .val { color: var(--accent2); }
+    .dash-stat.o .val { color: var(--accent3); }
+
+    .dash-stat .lbl {
+      font-size: .72rem;
+      color: var(--muted);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .status-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+    }
+
+    .status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .dot-green { background: var(--accent2); color: var(--accent2); }
+    .dot-blue  { background: var(--accent);  color: var(--accent); }
+    .dot-orange{ background: var(--accent3); color: var(--accent3); }
+
+    .status-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .75rem;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .status-badge {
+      font-size: .68rem;
+      letter-spacing: .06em;
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+    .badge-active   { background: rgba(0,255,157,.12); color: var(--accent2); border: 1px solid rgba(0,255,157,.25); }
+    .badge-transit  { background: rgba(0,212,255,.12); color: var(--accent);  border: 1px solid rgba(0,212,255,.25); }
+    .badge-survey   { background: rgba(255,107,53,.12); color: var(--accent3); border: 1px solid rgba(255,107,53,.25); }
+
+    .progress-bar-wrap { flex: 1; }
+    .progress-bar {
+      height: 4px;
+      background: var(--bg);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1.2s ease;
+    }
+    .fill-green  { background: linear-gradient(90deg, var(--accent2), #00cc7a); }
+    .fill-blue   { background: linear-gradient(90deg, var(--accent), #0099cc); }
+    .fill-orange { background: linear-gradient(90deg, var(--accent3), #cc4400); }
+
+    /* ── VIDEO FEED GRID ── */
+    .feed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .feed-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .feed-card:hover { transform: translateY(-3px); box-shadow: 0 0 20px rgba(255, 0, 0, 0.2); }
+
+    .feed-screen {
+      position: relative;
+      height: 160px;
+      background: var(--bg3);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+
+    /* animated scan line */
+    .feed-screen::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.7), transparent);
+      animation: scan 3s linear infinite;
+    }
+    @keyframes scan {
+      0%   { top: -2px; }
+      100% { top: 100%; }
+    }
+
+    .feed-canvas {
+      width: 100%; height: 100%;
+      display: block;
+    }
+
+    .feed-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border: 1px solid rgba(0,212,255,.2);
+    }
+
+    .feed-corner {
+      position: absolute;
+      width: 14px; height: 14px;
+      border-color: var(--accent);
+      border-style: solid;
+    }
+    .feed-corner.tl { top: 6px; left: 6px;   border-width: 2px 0 0 2px; }
+    .feed-corner.tr { top: 6px; right: 6px;  border-width: 2px 2px 0 0; }
+    .feed-corner.bl { bottom: 6px; left: 6px;  border-width: 0 0 2px 2px; }
+    .feed-corner.br { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+
+    .feed-rec {
+      position: absolute;
+      top: 10px; left: 10px;
+      display: flex; align-items: center; gap: 5px;
+      font-size: .6rem; letter-spacing: .1em;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .rec-dot {
+      width: 7px; height: 7px;
+      background: #f00;
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .feed-info {
+      position: absolute;
+      bottom: 8px; right: 8px;
+      font-size: .6rem;
+      color: rgba(0,212,255,.8);
+      font-family: 'Orbitron', sans-serif;
+      text-align: right;
+    }
+
+    .feed-meta {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .feed-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .75rem;
+      color: var(--text);
+    }
+    .feed-sub {
+      font-size: .68rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .feed-pill {
+      font-size: .62rem;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .tl-item {
+      position: relative;
+      margin-bottom: 32px;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -25px; top: 5px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(0,212,255,.6);
+    }
+
+    .tl-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .7rem;
+      color: var(--accent);
+      letter-spacing: .08em;
+      margin-bottom: 6px;
+    }
+
+    .tl-title {
+      font-weight: 600;
+      font-size: .95rem;
+      margin-bottom: 6px;
+    }
+
+    .tl-desc {
+      font-size: .85rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── DISPATCH FORM ── */
+    .dispatch-form {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 32px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: .72rem;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: .06em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    input, select, textarea {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: .88rem;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,212,255,.1);
+    }
+    select option { background: var(--bg2); }
+    textarea { resize: vertical; min-height: 88px; }
+
+    .form-submit {
+      display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px;
+    }
+
+    /* ── ALERT BANNER ── */
+    .alert-banner {
+      background: rgba(255,107,53,.08);
+      border: 1px solid rgba(255,107,53,.25);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .alert-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .alert-text h4 { font-size: .88rem; color: var(--accent3); margin-bottom: 4px; }
+    .alert-text p  { font-size: .8rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* delay helpers */
+    .d1 { transition-delay: .1s; }
+    .d2 { transition-delay: .2s; }
+    .d3 { transition-delay: .3s; }
+    .d4 { transition-delay: .4s; }
+    .d5 { transition-delay: .5s; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      position: relative; z-index: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 24px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-brand" href="index.html"><span>Event</span>IQ</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="features.html">Features</a></li>
+    <li><a href="userflow.html">User Flow</a></li>
+    <li><a href="techstack.html">Tech Stack</a></li>
+    <li><a href="architecture.html">Architecture</a></li>
+    <li><a href="passes.html">Entry Passes</a></li>
+    <li><a href="monitor.html">Crowd Monitor</a></li>
+    <li><a href="navigation.html">AR Navigation</a></li>
+    <li><a href="alerts.html">Alerts</a></li>
+    <li><a href="medic.html" class="active">Medic</a></li>
+    <li><a href="medic copy.html">Medic Copy</a></li>
+    <li><a href="admin.html">Admin</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <span class="hero-badge">🚁 New Module — Drone Operations</span>
+  <h1>
+    <span class="hi">Drone</span> Medical Delivery<br/>
+    &amp; <span class="hg">Aerial Survey</span> System
+  </h1>
+  <p>Autonomous drone fleet management for emergency medical deliveries and real-time aerial surveillance integrated directly into the SafeFlow command center.</p>
+  <div class="hero-btns">
+    <a href="#dispatch" class="btn-primary">Dispatch a Drone</a>
+    <a href="#feeds" class="btn-secondary">Live Feeds</a>
+  </div>
+
+  <!-- Drone SVG illustration -->
+  <div class="drone-anim">
+    <svg viewBox="0 0 120 80" width="120" height="80" xmlns="http://www.w3.org/2000/svg">
+      <!-- arms -->
+      <line x1="35" y1="40" x2="10" y2="25" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="85" y1="40" x2="110" y2="25" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="35" y1="40" x2="10" y2="55" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="85" y1="40" x2="110" y2="55" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- body -->
+      <rect x="32" y="32" width="56" height="16" rx="8" fill="#0b1120" stroke="#00d4ff" stroke-width="1.5"/>
+      <rect x="48" y="36" width="24" height="8" rx="4" fill="#00d4ff" opacity=".18"/>
+      <!-- camera -->
+      <circle cx="60" cy="50" r="5" fill="#0b1120" stroke="#00ff9d" stroke-width="1.5"/>
+      <circle cx="60" cy="50" r="2.5" fill="#00ff9d" opacity=".6"/>
+      <!-- rotors -->
+      <ellipse cx="10" cy="25" rx="10" ry="3" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity=".7"/>
+      <ellipse cx="110" cy="25" rx="10" ry="3" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity=".7"/>
+      <ellipse cx="10" cy="55" rx="10" ry="3" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity=".7"/>
+      <ellipse cx="110" cy="55" rx="10" ry="3" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity=".7"/>
+      <!-- signal -->
+      <path d="M64 20 Q68 15 72 20" stroke="#00ff9d" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M62 17 Q68 10 74 17" stroke="#00ff9d" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".5"/>
+    </svg>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── MEDICAL DELIVERY ── -->
+<section>
+  <p class="section-label reveal">Medical Delivery</p>
+  <h2 class="section-title reveal d1">Autonomous Emergency <span style="color:var(--accent)">Medical Drops</span></h2>
+  <p class="section-sub reveal d2">Drones dispatched within seconds for first-aid kits, AEDs, medications, and blood units — integrated with crowd density data to navigate the fastest clear path.</p>
+
+  <div class="cards">
+    <div class="card reveal d1">
+      <span class="card-icon">🏥</span>
+      <h3>Smart Payload Routing</h3>
+      <p>AI calculates the optimal flight path using live crowd density data, wind speed, and obstacle maps to ensure fastest delivery.</p>
+    </div>
+    <div class="card reveal d2">
+      <span class="card-icon">⚡</span>
+      <h3>Sub-90s Dispatch</h3>
+      <p>From emergency trigger to airborne in under 90 seconds. Pre-loaded medical pods launch automatically on staff alert or panic button activation.</p>
+    </div>
+    <div class="card reveal d3">
+      <span class="card-icon">📦</span>
+      <h3>Payload Types</h3>
+      <p>AED defibrillators, naloxone kits, epinephrine auto-injectors, trauma bandages, blood units (cooled pods), and insulin.</p>
+    </div>
+    <div class="card reveal d4">
+      <span class="card-icon">🎯</span>
+      <h3>Precision Landing</h3>
+      <p>Vision-based landing on marked landing pads or direct hand-off to responders, with GPS ± 15 cm accuracy even indoors via UWB anchors.</p>
+    </div>
+    <div class="card reveal d5">
+      <span class="card-icon">🔁</span>
+      <h3>Fleet Rotation</h3>
+      <p>Hot-swap battery system ensures a drone is always available. Fleet of 6 drones per zone; two always on standby at full charge.</p>
+    </div>
+    <div class="card reveal">
+      <span class="card-icon">🔔</span>
+      <h3>Real-time Notifications</h3>
+      <p>Staff and medical teams receive live ETAs, payload contents, and landing zone updates via the SafeFlow Alerts system.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── LIVE DASHBOARD ── -->
+<section>
+  <p class="section-label reveal">Live Operations</p>
+  <h2 class="section-title reveal d1">Drone Fleet <span style="color:var(--accent2)">Status Dashboard</span></h2>
+
+  <div class="dashboard reveal d2">
+    <div class="dash-grid">
+      <div class="dash-stat">
+        <span class="val" id="dActive">4</span>
+        <span class="lbl">Active Drones</span>
+      </div>
+      <div class="dash-stat g">
+        <span class="val" id="dDeliveries">18</span>
+        <span class="lbl">Deliveries Today</span>
+      </div>
+      <div class="dash-stat o">
+        <span class="val" id="dEta">1:24</span>
+        <span class="lbl">Avg ETA (min)</span>
+      </div>
+      <div class="dash-stat">
+        <span class="val" id="dCoverage">94%</span>
+        <span class="lbl">Fleet Uptime</span>
+      </div>
+    </div>
+
+    <div class="status-row" id="droneList">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SURVEY ── -->
+<section>
+  <p class="section-label reveal">Aerial Survey</p>
+  <h2 class="section-title reveal d1">Camera Footage &amp; <span style="color:var(--accent)">Crowd Intelligence</span></h2>
+  <p class="section-sub reveal d2">Drones act as aerial crowd sensors — streaming live HD footage to the SafeFlow command center, detecting density hotspots, and triggering routing adjustments before congestion forms.</p>
+
+  <div class="cards">
+    <div class="card green reveal d1">
+      <span class="card-icon">📷</span>
+      <h3>4K Thermal + RGB Feed</h3>
+      <p>Dual-sensor payload streams 4K RGB and thermal infrared simultaneously — detecting body heat clusters for crowd density mapping even at night.</p>
+    </div>
+    <div class="card green reveal d2">
+      <span class="card-icon">🧠</span>
+      <h3>AI Crowd Analytics</h3>
+      <p>On-board edge inference counts people per zone, classifies movement patterns, and flags panic / stampede behavior in real time.</p>
+    </div>
+    <div class="card green reveal d3">
+      <span class="card-icon">🗺️</span>
+      <h3>Orthomosaic Mapping</h3>
+      <p>Post-event photogrammetry stitches thousands of aerial frames into geo-referenced 3D maps for incident review and venue planning.</p>
+    </div>
+    <div class="card green reveal d4">
+      <span class="card-icon">📡</span>
+      <h3>Mesh Relay Network</span></h3>
+      <p>Drones form a self-healing mesh relay, extending SafeFlow's 5G/Wi-Fi coverage to GPS-denied indoor zones like tunnels and underground halls.</p>
+    </div>
+    <div class="card green reveal d5">
+      <span class="card-icon">🔒</span>
+      <h3>Encrypted Streams</h3>
+      <p>All footage is AES-256 encrypted in flight and stored on private on-premises servers — never sent to third-party clouds without admin approval.</p>
+    </div>
+    <div class="card green reveal">
+      <span class="card-icon">⚙️</span>
+      <h3>Autonomous Patrol Routes</h3>
+      <p>Pre-programmed waypoint missions with dynamic re-routing triggered by crowd surge alerts from the SafeFlow density model.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── LIVE FEEDS ── -->
+<section id="feeds">
+  <p class="section-label reveal">Camera Feeds</p>
+  <h2 class="section-title reveal d1">Live <span style="color:var(--accent)">Aerial Footage</span></h2>
+  <p class="section-sub reveal d2">Simulated live feeds from active patrol drones. Each stream includes AI overlay annotations.</p>
+
+  <div class="feed-grid reveal d2">
+    <div class="feed-card">
+      <div class="feed-screen">
+        <canvas class="feed-canvas" id="feed1" width="400" height="160"></canvas>
+        <div class="feed-overlay">
+          <div class="feed-corner tl"></div><div class="feed-corner tr"></div>
+          <div class="feed-corner bl"></div><div class="feed-corner br"></div>
+          <div class="feed-rec"><span class="rec-dot"></span>REC</div>
+          <div class="feed-info" id="feed1info">ALT: 42m · SPEED: 8 m/s</div>
+        </div>
+      </div>
+      <div class="feed-meta">
+        <div><div class="feed-title">DRONE-01 · Gate A</div><div class="feed-sub">Crowd density: HIGH · 248 detected</div></div>
+        <span class="feed-pill badge-active">LIVE</span>
+      </div>
+    </div>
+
+    <div class="feed-card">
+      <div class="feed-screen">
+        <canvas class="feed-canvas" id="feed2" width="400" height="160"></canvas>
+        <div class="feed-overlay">
+          <div class="feed-corner tl"></div><div class="feed-corner tr"></div>
+          <div class="feed-corner bl"></div><div class="feed-corner br"></div>
+          <div class="feed-rec"><span class="rec-dot"></span>REC</div>
+          <div class="feed-info" id="feed2info">ALT: 38m · SPEED: 5 m/s</div>
+        </div>
+      </div>
+      <div class="feed-meta">
+        <div><div class="feed-title">DRONE-02 · Main Plaza</div><div class="feed-sub">Crowd density: MED · 131 detected</div></div>
+        <span class="feed-pill badge-transit">TRANSIT</span>
+      </div>
+    </div>
+
+    <div class="feed-card">
+      <div class="feed-screen">
+        <canvas class="feed-canvas" id="feed3" width="400" height="160"></canvas>
+        <div class="feed-overlay">
+          <div class="feed-corner tl"></div><div class="feed-corner tr"></div>
+          <div class="feed-corner bl"></div><div class="feed-corner br"></div>
+          <div class="feed-rec"><span class="rec-dot"></span>REC</div>
+          <div class="feed-info" id="feed3info">ALT: 55m · SPEED: 0 m/s</div>
+        </div>
+      </div>
+      <div class="feed-meta">
+        <div><div class="feed-title">DRONE-03 · Perimeter</div><div class="feed-sub">Survey mode · Thermal active</div></div>
+        <span class="feed-pill badge-survey">SURVEY</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── WORKFLOW ── -->
+<section>
+  <p class="section-label reveal">Workflow</p>
+  <h2 class="section-title reveal d1">How It <span style="color:var(--accent2)">Works</span></h2>
+
+  <div class="timeline reveal d2">
+    <div class="tl-item">
+      <div class="tl-label">Step 01</div>
+      <div class="tl-title">Incident Detected</div>
+      <div class="tl-desc">Panic button, staff alert, or AI anomaly detection triggers an emergency event in the SafeFlow system with GPS coordinates.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Step 02</div>
+      <div class="tl-title">Drone Auto-Assigned</div>
+      <div class="tl-desc">Fleet manager selects the nearest available drone, loads the appropriate medical payload pod, and calculates a crowd-aware flight path.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Step 03</div>
+      <div class="tl-title">Airborne &lt; 90 Seconds</div>
+      <div class="tl-desc">Drone lifts off automatically. Staff and medical teams receive a push notification with ETA, drone ID, and payload details.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Step 04</div>
+      <div class="tl-title">Live Feed to Command</div>
+      <div class="tl-desc">On-board 4K camera streams to the SafeFlow command center in real time. AI annotates crowd density en route.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Step 05</div>
+      <div class="tl-title">Precision Delivery</div>
+      <div class="tl-desc">Drone hovers at 2m, releases payload to responder or drops on marked landing pad. Confirmation photo logged automatically.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Step 06</div>
+      <div class="tl-title">Return &amp; Recharge</div>
+      <div class="tl-desc">Drone autonomously returns to the nearest docking station, recharges, and is cleared for the next mission — full cycle in under 12 minutes.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── DISPATCH FORM ── -->
+<section id="dispatch">
+  <p class="section-label reveal">Dispatch</p>
+  <h2 class="section-title reveal d1">Request a <span style="color:var(--accent)">Drone Mission</span></h2>
+  <p class="section-sub reveal d2">Submit a dispatch request. Medical emergencies are auto-escalated and bypass the approval queue.</p>
+
+  <div class="alert-banner reveal d2">
+    <span class="alert-icon">⚠️</span>
+    <div class="alert-text">
+      <h4>Life-Threatening Emergency?</h4>
+      <p>Press the physical Panic Button or use the SafeFlow mobile app Emergency shortcut — drones dispatch instantly without this form.</p>
+    </div>
+  </div>
+
+  <div class="dispatch-form reveal d3">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="missionType">Mission Type</label>
+        <select id="missionType">
+          <option value="">Select mission type</option>
+          <option>Medical Delivery — AED</option>
+          <option>Medical Delivery — First Aid Kit</option>
+          <option>Medical Delivery — Medication</option>
+          <option>Medical Delivery — Blood Unit</option>
+          <option>Aerial Survey — Crowd Monitoring</option>
+          <option>Aerial Survey — Perimeter Check</option>
+          <option>Aerial Survey — Thermal Scan</option>
+          <option>Search &amp; Locate</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="zone">Zone / Location</label>
+        <input id="zone" type="text" placeholder="e.g. Gate A, Main Plaza, Section 12" />
+      </div>
+      <div class="form-group">
+        <label for="priority">Priority Level</label>
+        <select id="priority">
+          <option>Critical — Life Threatening</option>
+          <option>High — Urgent Medical</option>
+          <option>Medium — Scheduled Survey</option>
+          <option>Low — Routine Patrol</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="staffId">Requesting Staff ID</label>
+        <input id="staffId" type="text" placeholder="e.g. SF-4421" />
+      </div>
+      <div class="form-group full">
+        <label for="notes">Additional Notes</label>
+        <textarea id="notes" placeholder="Describe the situation, any access restrictions, or special payload requirements…"></textarea>
+      </div>
+    </div>
+    <div class="form-submit">
+      <button class="btn-primary" onclick="dispatchDrone()">🚁 Dispatch Drone</button>
+      <button class="btn-secondary" onclick="clearForm()">Clear</button>
+    </div>
+    <div id="dispatchMsg" style="margin-top:16px;font-size:.85rem;display:none;"></div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>© 2026 EventIQ</footer>
+
+<script>
+  // ── NAV TOGGLE ──
+  document.getElementById('navToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  // ── SCROLL REVEAL ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── DRONE STATUS DATA ──
+  const drones = [
+    { id: 'DRONE-01', status: 'active',   label: 'badge-active',  fillClass: 'fill-green',  pct: 78, task: 'Medical Delivery → Gate A',      dotClass: 'dot-green'  },
+    { id: 'DRONE-02', status: 'transit',  label: 'badge-transit', fillClass: 'fill-blue',   pct: 52, task: 'Returning to Station 2',          dotClass: 'dot-blue'   },
+    { id: 'DRONE-03', status: 'survey',   label: 'badge-survey',  fillClass: 'fill-orange', pct: 61, task: 'Perimeter Thermal Scan',           dotClass: 'dot-orange' },
+    { id: 'DRONE-04', status: 'active',   label: 'badge-active',  fillClass: 'fill-green',  pct: 90, task: 'Crowd Monitor → Main Stage',       dotClass: 'dot-green'  },
+    { id: 'DRONE-05', status: 'standby',  label: 'badge-transit', fillClass: 'fill-blue',   pct: 100, task: 'On Standby — Charging Complete',  dotClass: 'dot-blue'   },
+    { id: 'DRONE-06', status: 'standby',  label: 'badge-transit', fillClass: 'fill-blue',   pct: 64, task: 'Charging — 64%',                   dotClass: 'dot-blue'   },
+  ];
+
+  const droneList = document.getElementById('droneList');
+  drones.forEach(d => {
+    droneList.innerHTML += `
+      <div class="status-item">
+        <span class="status-dot ${d.dotClass}"></span>
+        <span class="status-name">${d.id}</span>
+        <div class="progress-bar-wrap">
+          <div style="font-size:.62rem;color:var(--muted);margin-bottom:4px;">${d.task}</div>
+          <div class="progress-bar"><div class="progress-bar-fill ${d.fillClass}" style="width:${d.pct}%"></div></div>
+        </div>
+        <span class="status-badge ${d.label}">${d.status.toUpperCase()}</span>
+      </div>`;
+  });
+
+  // ── COUNTER ANIMATION ──
+  function animateCount(el, target, suffix='') {
+    let start = 0, dur = 1200, step = 16;
+    const inc = target / (dur / step);
+    const timer = setInterval(() => {
+      start = Math.min(start + inc, target);
+      el.textContent = (Number.isInteger(target) ? Math.floor(start) : start.toFixed(1)) + suffix;
+      if (start >= target) clearInterval(timer);
+    }, step);
+  }
+  setTimeout(() => {
+    animateCount(document.getElementById('dActive'), 4);
+    animateCount(document.getElementById('dDeliveries'), 18);
+    animateCount(document.getElementById('dCoverage'), 94, '%');
+  }, 600);
+
+  // ── CANVAS FEED ANIMATION ──
+  function initFeed(canvasId, hue, particleCount) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+
+    // simple animated "camera feed" effect: moving dots + scan grid
+    const particles = Array.from({length: particleCount}, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 3 + 1,
+      vx: (Math.random() - .5) * .5, vy: (Math.random() - .5) * .5,
+      life: Math.random()
+    }));
+
+    let frame = 0;
+    function draw() {
+      ctx.fillStyle = 'rgba(5,8,15,0.25)';
+      ctx.fillRect(0,0,W,H);
+
+      // grid
+      ctx.strokeStyle = `hsla(${hue},80%,60%,0.06)`;
+      ctx.lineWidth = 1;
+      for (let x=0; x<W; x+=32) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+      for (let y=0; y<H; y+=32) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+      // crowd particles (people detected)
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x<0) p.x=W; if (p.x>W) p.x=0;
+        if (p.y<0) p.y=H; if (p.y>H) p.y=0;
+        p.life += 0.01;
+        const alpha = 0.3 + 0.4 * Math.sin(p.life * 2);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = `hsla(${hue},90%,65%,${alpha})`;
+        ctx.fill();
+      });
+
+      // detection boxes (random appearing)
+      if (frame % 60 < 30) {
+        const bx = 30 + Math.sin(frame*0.02)*60, by = 20 + Math.cos(frame*0.015)*40;
+        ctx.strokeStyle = `hsla(${hue},80%,60%,0.5)`;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(bx, by, 45, 55);
+        ctx.fillStyle = `hsla(${hue},80%,60%,0.7)`;
+        ctx.font = '8px Orbitron, monospace';
+        ctx.fillText('ID:' + Math.floor(bx), bx, by - 3);
+      }
+
+      frame++;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  initFeed('feed1', 190, 45);   // cyan
+  initFeed('feed2', 160, 28);   // green
+  initFeed('feed3', 25,  20);   // orange/thermal
+
+  // ── DISPATCH FORM ──
+  function dispatchDrone() {
+    const type = document.getElementById('missionType').value;
+    const zone = document.getElementById('zone').value.trim();
+    const priority = document.getElementById('priority').value;
+    const msg = document.getElementById('dispatchMsg');
+
+    if (!type || !zone) {
+      msg.style.display = 'block';
+      msg.style.color = '#ff6b35';
+      msg.textContent = '⚠ Please select a mission type and enter a zone/location.';
+      return;
+    }
+
+    msg.style.display = 'block';
+    msg.style.color = 'var(--accent2)';
+    msg.textContent = '⏳ Dispatching…';
+
+    setTimeout(() => {
+      const droneId = 'DRONE-0' + Math.floor(Math.random()*6+1);
+      const eta = Math.floor(Math.random()*90+30);
+      msg.innerHTML = `✅ <strong>${droneId}</strong> dispatched for <em>${type}</em> to <strong>${zone}</strong>. Priority: <strong>${priority}</strong>. Estimated arrival: <strong>${eta}s</strong>. Track via Alerts page.`;
+    }, 1800);
+  }
+
+  function clearForm() {
+    ['missionType','zone','staffId','notes'].forEach(id => {
+      const el = document.getElementById(id);
+      el.tagName === 'SELECT' ? el.selectedIndex = 0 : (el.value = '');
+    });
+    document.getElementById('priority').selectedIndex = 0;
+    const msg = document.getElementById('dispatchMsg');
+    msg.style.display = 'none'; msg.textContent = '';
+  }
+</script>
+</body>
+</html>

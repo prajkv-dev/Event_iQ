@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Alerts — EventIQ</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="brand"><a href="index.html" style="text-decoration: none;color: var(--white);">Event<span class="accent">IQ</span></a></div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="userflow.html">User Flow</a>
+    <a href="techstack.html">Tech Stack</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="passes.html">Entry Passes</a>
+    <a href="monitor.html">Crowd Monitor</a>
+    <a href="navigation.html">AR Navigation</a>
+    <a href="medic.html">Medic</a>
+    <a class="active" href="alerts.html">Alerts</a>
+    <a href="admin.html">Admin</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h1>Predictive Alerts</h1>
+  <div class="card">
+    <p><strong>Next surge predicted:</strong> <span id="surgeTime">—</span></p>
+    <p><strong>Recommended action:</strong> <span id="surgeAction">—</span></p>
+    <button id="simulateAlert" class="btn btn-primary">Simulate Prediction</button>
+  </div>
+
+  <h2>Staggered Exit Slots</h2>
+  <div class="grid">
+    <div class="card"><strong>Gate A:</strong> 20:05–20:15</div>
+    <div class="card"><strong>Gate B:</strong> 20:15–20:25</div>
+    <div class="card"><strong>Gate C:</strong> 20:25–20:35</div>
+    <div class="card"><strong>Gate D:</strong> 20:35–20:45</div>
+  </div>
+</main>
+
+<footer class="footer">© 2026 EventIQ</footer>
+</body>
+</html>
